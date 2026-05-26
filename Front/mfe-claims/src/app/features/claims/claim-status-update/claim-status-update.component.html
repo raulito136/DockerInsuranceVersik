@@ -1,0 +1,50 @@
+<div class="p-8 max-w-2xl mx-auto">
+  <div class="flex items-center gap-4 mb-6">
+    <lib-button type="default" content="← Back" (buttonClick)="cancelar()"></lib-button>
+    <h1 class="text-3xl font-extrabold text-gray-800">Update Claim Status</h1>
+  </div>
+
+  <lib-loader *ngIf="loading()" text="Loading status options..."></lib-loader>
+
+  <lib-form 
+    *ngIf="!loading()"
+    [title]="'Update Status: ' + claimNumber()" 
+    subtitle="Current status: {{ currentStatus() }}">
+    
+    <div class="py-4" *ngIf="statusOptions.length > 0; else noTransitions">
+      <lib-select 
+        label="Select New Status" 
+        [options]="statusOptions" 
+        [(selectedOption)]="newStatus">
+      </lib-select>
+      
+      <p class="mt-4 text-sm text-gray-500 italic">
+        Note: The system will validate if this transition is allowed according to the workflow.
+      </p>
+    </div>
+
+    <ng-template #noTransitions>
+      <div class="p-4 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 my-4">
+        <p class="font-bold">No valid transitions available.</p>
+        <p class="text-sm">This claim has reached a terminal state ({{ currentStatus() }}).</p>
+      </div>
+    </ng-template>
+
+    <div form-actions class="flex gap-2 justify-end">
+      <lib-button type="cancel" content="Cancel" (buttonClick)="cancelar()"></lib-button>
+      <lib-button 
+        *ngIf="statusOptions.length > 0"
+        type="submit" 
+        content="Update Status" 
+        (buttonClick)="actualizarEstado()">
+      </lib-button>
+    </div>
+  </lib-form>
+
+  <lib-confirmation 
+    *ngIf="showModal()" 
+    [title]="modalTitle()" 
+    [text]="modalText()" 
+    (confirmAction)="onModalClose()">
+  </lib-confirmation>
+</div>

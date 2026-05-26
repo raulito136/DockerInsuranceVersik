@@ -1,0 +1,162 @@
+<div class="bg-gray-100 p-8 rounded-2xl border-4 border-dashed border-gray-300">
+    <div class="mb-8 text-center">
+        <h2 class="text-3xl font-extrabold text-gray-800">UI Components Library Demo</h2>
+        <p class="text-gray-500 mt-2">Comprehensive examples of all shared components.</p>
+    </div>
+
+    <div class="flex flex-col gap-12">
+
+        <!-- BUTTONS -->
+        <section>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">1. Buttons</h3>
+            <div class="flex flex-wrap gap-4 bg-white p-6 rounded-xl shadow-sm border border-gray-100 items-center">
+                <lib-button />
+                <lib-button type="default" content="Default Type" />
+                <lib-button type="confirm" content="Confirm Action" />
+                <lib-button type="cancel" content="Cancel Action" />
+                <lib-button type="submit" content="Submit Form" />
+                <lib-button type="custom" content="Custom Style" />
+            </div>
+        </section>
+
+        <!-- TABS -->
+        <section>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">2. Tabs</h3>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <lib-tabs [tabs]="['Details', 'Comments', 'Audit History']" [activeTab]="currentTab"
+                    (onTabChange)="currentTab = $event">
+                </lib-tabs>
+                <div class="p-4 mt-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600">Currently viewing: <strong>{{ currentTab }}</strong> content.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORM INPUTS -->
+        <section>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">3. Form Inputs</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <!-- Text Inputs -->
+                <div class="flex flex-col gap-4">
+                    <lib-input label="Standard Input" placeholder="Type here..." />
+                    <div>
+                        <lib-input label="Input with Error" placeholder="Invalid data..." [value]="'Wrong info'" />
+                        <lib-inline-error [message]="exampleError" />
+                    </div>
+                </div>
+
+                <!-- Select & Datepicker -->
+                <div class="flex flex-col gap-4">
+                    <lib-select label="Car Brand (Select)" [options]="carsOptions" [selectedOption]="selectedCar"
+                        (selectedOptionChange)="selectedCar = $any($event)" />
+                    <lib-datepicker label="Claim Date (Datepicker)" [(selectedDate)]="claimDate" [maxDate]="today" />
+
+                    <div class="mt-2 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <lib-switch label="Toggle Feature (Switch)" [checked]="isActive"
+                            (checkedChange)="isActive = $event" />
+                        <p class="text-xs text-gray-500 mt-2 ml-1">Status: {{ isActive ? 'ON' : 'OFF' }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORM SHELL -->
+        <section>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">4. Form Shell (Layout)</h3>
+            <lib-form title="Create New Policy" subtitle="Please fill all the required details below">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <lib-input label="First Name" placeholder="John" />
+                    <lib-input label="Last Name" placeholder="Doe" />
+                    <lib-select label="Policy Type"
+                        [options]="[{value: 'auto', content: 'Auto'}, {value: 'home', content: 'Home'}]" />
+                </div>
+                <div form-actions>
+                    <lib-button type="cancel" content="Discard" />
+                    <lib-button type="confirm" content="Save Policy" />
+                </div>
+            </lib-form>
+        </section>
+
+        <!-- DATA DISPLAY (Table & Pagination) -->
+        <section>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">5. Data Table & Pagination</h3>
+            <div class="flex flex-col gap-4">
+                <lib-table [columns]="testTableCols" [data]="testTableData" (rowClick)="onRowSelect($event)" />
+                <lib-pagination [currentPage]="currentPage" [totalPages]="5" (pageChange)="currentPage = $event" />
+            </div>
+        </section>
+
+        <!-- CARDS -->
+        <section>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">6. Cards & Skeleton Loaders</h3>
+            <div
+                class="mb-4 flex items-center justify-between bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                <span class="font-medium text-gray-700">Simulate API Loading State:</span>
+                <lib-switch label="Loading Mode" [checked]="isCardLoading" (checkedChange)="isCardLoading = $event" />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-auto md:h-96">
+                <!-- Card 1 -->
+                <lib-card [isLoading]="isCardLoading">
+                    <div card-header>
+                        <div
+                            class="bg-gradient-to-r from-blue-500 to-indigo-600 h-32 w-full flex items-center justify-center text-white font-bold text-xl">
+                            Full Banner Card
+                        </div>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Policy #12345</h4>
+                    <p class="text-gray-600 text-sm mb-4">This card uses the header slot for a full-width banner. The
+                        body contains standard text.</p>
+                    <div card-footer class="p-4 border-t border-gray-100 flex justify-end gap-2">
+                        <lib-button type="default" content="View" />
+                    </div>
+                </lib-card>
+
+                <!-- Card 2 -->
+                <lib-card [isLoading]="isCardLoading">
+                    <h4 class="text-xl font-extrabold text-blue-700 mb-2">Minimalist Layout</h4>
+                    <p class="text-gray-800">This card has no header banner. It directly jumps into the content.</p>
+                    <ul class="list-disc pl-5 mt-4 text-sm text-gray-600">
+                        <li>Feature A included</li>
+                        <li>Feature B included</li>
+                    </ul>
+                    <div card-footer class="p-4 bg-gray-50 flex justify-between items-center rounded-b-xl">
+                        <span class="text-xs text-gray-400">Updated today</span>
+                        <lib-button type="submit" content="Accept" />
+                    </div>
+                </lib-card>
+            </div>
+        </section>
+
+        <!-- TIMELINE -->
+        <section>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">7. Timeline (Audit Trail)</h3>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <lib-timeline [events]="testTimelineEvents" />
+            </div>
+        </section>
+
+        <!-- LOADERS -->
+        <section>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-700">8. Loaders</h3>
+            <div
+                class="flex flex-col sm:flex-row gap-8 items-center bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex flex-col items-center">
+                    <p class="mb-4 text-sm font-medium text-gray-500">Inline Loader</p>
+                    <lib-loader text="Processing data..." />
+                </div>
+                <div class="w-px h-24 bg-gray-200 hidden sm:block"></div>
+                <div class="flex flex-col items-center flex-1">
+                    <p class="mb-4 text-sm font-medium text-gray-500">Global Overlay Loader</p>
+                    <lib-button type="submit" content="Trigger Global Loader (2.5s)"
+                        (buttonClick)="triggerGlobalLoader()" />
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    @if (showGlobalLoader) {
+    <lib-loader [global]="true" text="Loading from server..." />
+    }
+</div>

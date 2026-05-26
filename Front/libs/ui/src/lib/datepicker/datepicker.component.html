@@ -1,0 +1,37 @@
+<div class="flex flex-col gap-1 w-full text-left p-2">
+  @if (label) {
+  <label [for]="id" class="text-base font-bold text-gray-700 ml-1">{{
+    label
+  }}</label>
+  }
+
+  <!-- El input nativo de fecha, blindado y estilizado -->
+  <input
+    type="date"
+    [id]="id"
+    [name]="name"
+    [value]="selectedDate"
+    [min]="minDate"
+    [max]="maxDate"
+    (change)="onDateChange($event)"
+    class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all cursor-pointer"
+    [class.text-gray-400]="selectedDate === ''"
+  />
+</div>
+
+<!-- USE EXAMPLE
+
+export class WelcomeComponent {
+  claimDate: string = '';
+  today: string = new Date().toISOString().split('T')[0]; // max claim date
+}
+
+<div>
+    <lib-datepicker
+    label="Claim date"
+    [(selectedDate)]="claimDate"
+    [maxDate]="today"
+    />
+</div>
+
+-->

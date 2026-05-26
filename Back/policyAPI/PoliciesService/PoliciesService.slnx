@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="PoliciesService.Api/PoliciesService.Api.csproj" Id="f36dd266-f9f4-41fe-b82e-c798b3d19b6c" />
+  <Project Path="PoliciesService.Application/PoliciesService.Application.csproj" />
+  <Project Path="PoliciesService.Domain/PoliciesService.Domain.csproj" />
+  <Project Path="PoliciesService.Infrastructure/PoliciesService.Infrastructure.csproj" />
+  <Project Path="PoliciesService.Tests/PoliciesService.Tests.csproj" Id="5e0209ab-d147-48ad-b9bd-ee89c9cdc2f6" />
+</Solution>

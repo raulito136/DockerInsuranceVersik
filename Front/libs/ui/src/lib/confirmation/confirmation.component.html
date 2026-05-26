@@ -1,0 +1,16 @@
+<div
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+>
+  <div
+    class="bg-white rounded-xl z-50 flex flex-col items-stretch justify-center pt-4 px-8 pb-4 w-fit max-w-lg"
+  >
+    <h1 class="text-3xl font-bold p-2 border-b items-start">{{ title }}</h1>
+    <p class="p-2">
+      {{ text }}
+    </p>
+    <div class="flex justify-end p-2 gap-2">
+      <lib-button type="confirm" (buttonClick)="onConfirm()" />
+      <lib-button type="cancel" (buttonClick)="onCancel()" />
+    </div>
+  </div>
+</div>

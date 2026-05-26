@@ -1,0 +1,59 @@
+<div class="p-8">
+  <div class="flex items-center gap-4 mb-6">
+    <lib-button type="default" content="← Back" routerLink=".."></lib-button>
+    <h1 class="text-3xl font-extrabold text-gray-800">Claim Details</h1>
+  </div>
+
+  <lib-loader *ngIf="loading()" text="Loading claim details..."></lib-loader>
+
+  <div *ngIf="!loading() && !claim()" class="text-center py-20">
+    <h2 class="text-2xl font-bold text-gray-400">Claim not found</h2>
+    <lib-button content="Back to List" routerLink=".."></lib-button>
+  </div>
+
+  <div *ngIf="!loading() && claim() as c">
+
+    <lib-card>
+      <div card-header>
+        <div
+          class="bg-blue-600 h-16 w-full flex items-center justify-between px-6 text-black font-bold text-xl rounded-t-xl">
+          <span>Claim: {{ c.claimNumber }}</span>
+          <span class="bg-blue-700 text-sm text-white px-3 py-1 rounded-full">{{ c.statusCode }}</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 my-4">
+        <p><strong>Policy:</strong> {{ c.policyNumber }}</p>
+        <p><strong>Date:</strong> {{ c.claimDate }}</p>
+        <p><strong>Amount:</strong> ${{ c.amount | number:'1.0-0':'es-ES' }}</p>
+        <p><strong>Description:</strong> {{ c.description }}</p>
+      </div>
+
+      <div card-footer class="p-4 bg-gray-50 flex justify-end gap-2">
+        <lib-button *ngIf="c.statusCode === 'SUBMITTED'" type="cancel" content="Delete Claim"
+          (buttonClick)="confirmDelete()"></lib-button>
+        <lib-button type="default" content="Update Status" routerLink="status"></lib-button>
+      </div>
+    </lib-card>
+
+    <div class="mt-8 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+      <lib-tabs [tabs]="['Comments', 'Audit History']" [activeTab]="currentTab" (onTabChange)="currentTab = $event">
+      </lib-tabs>
+
+      <div class="mt-6">
+        <div *ngIf="currentTab === 'Comments'">
+          <app-comment-list [comments]="c.comments || []" [claimId]="c.id"
+            (commentsUpdated)="refreshData()"></app-comment-list>
+        </div>
+
+        <div *ngIf="currentTab === 'Audit History'">
+          <app-audit-trail [audits]="c.audits || []"></app-audit-trail>
+        </div>
+      </div>
+    </div>
+
+    <lib-confirmation *ngIf="showDeleteModal()" title="Delete Claim"
+      text="Are you sure you want to delete this claim? This action cannot be undone."
+      (confirmAction)="onDeleteConfirm($event)">
+    </lib-confirmation>
+  </div>

@@ -1,0 +1,100 @@
+<!-- mfe-shell\src\app\layout\header\header.component.html -->
+<header class="bg-blue-800 text-white shadow-md">
+  <div class="px-6 py-4 flex justify-between items-center">
+    <!-- Logo / Título -->
+    <a routerLink="/" class="text-xl font-bold tracking-wide">
+      Insurance MFE
+    </a>
+
+    <!-- Navegación -->
+    <nav class="font-medium pr-6">
+      <ul class="flex gap-8">
+        <!-- REFERENCE DATA -->
+        <li class="group relative">
+          <a
+            routerLink="/reference-data"
+            class="hover:text-blue-200 transition-colors"
+            >Reference Data ▾</a
+          >
+          <ul
+            class="absolute left-0 top-full hidden w-60 bg-blue-700 shadow-lg group-hover:block list-none p-0 m-0 rounded-md z-50"
+          >
+            <li>
+              <a
+                routerLink="/reference-data/claim-statuses"
+                class="block px-4 py-3 hover:bg-blue-500 hover:rounded-md transition-colors"
+                >Claim Statuses</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/reference-data/policy-types"
+                class="block px-4 py-3 hover:bg-blue-500 hover:rounded-md transition-colors"
+                >Policy Types</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/reference-data/coverage-types"
+                class="block px-4 py-3 hover:bg-blue-500 hover:rounded-md transition-colors"
+                >Coverage Types</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/reference-data/regions"
+                class="block px-4 py-3 hover:bg-blue-500 hover:rounded-md transition-colors"
+                >Regions</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <!-- POLICIES -->
+        <li class="group relative">
+          <a
+            routerLink="/policies"
+            class="block hover:text-blue-200 transition-colors"
+            >Policies ▾</a
+          >
+          <ul
+            class="absolute left-0 top-full hidden w-52 bg-blue-700 shadow-lg group-hover:block list-none p-0 m-0 rounded-md z-50"
+          >
+            <li>
+              <a
+                routerLink="/policies"
+                class="block px-4 py-3 hover:bg-blue-500 hover:rounded-md transition-colors"
+                >Policies</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/policy-holders"
+                class="block px-4 py-3 hover:bg-blue-500 hover:rounded-md transition-colors"
+                >Policy Holders</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <!-- CLAIMS -->
+        <li class="group relative">
+          <a routerLink="/claim" class="hover:text-blue-200 transition-colors"
+            >Claims ▾</a
+          >
+          <ul
+            class="absolute left-0 top-full hidden w-42 bg-blue-700 shadow-lg group-hover:block list-none p-0 m-0 rounded-md z-50"
+          >
+            <li>
+              <a
+                routerLink="/claims"
+                class="block px-4 py-3 hover:bg-blue-500 hover:rounded-md transition-colors"
+                >Claims</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,50 @@
+<div class="overflow-x-auto bg-white shadow-md rounded-lg border border-gray-200">
+  <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
+    <thead class="bg-gray-50">
+      <tr>
+        @for (col of columns; track col.key) {
+        <th scope="col" class="px-6 py-4 font-bold text-gray-700 uppercase tracking-wider">
+          {{ col.label }}
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 bg-white">
+      @if (data.length === 0) {
+      <tr>
+        <td [attr.colspan]="columns.length" class="px-6 py-8 text-center text-gray-500 italic">
+          No data available
+        </td>
+      </tr>
+      }
+      
+      @for (row of data; track row) {
+      <tr 
+        (click)="onRowClick(row)" 
+        class="hover:bg-blue-50 transition-colors cursor-pointer"
+      >
+        @for (col of columns; track col.key) {
+        <td class="px-6 py-4 text-gray-800 whitespace-nowrap">
+          {{ row[col.key] }}
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- Usage Example:
+<lib-table 
+  [columns]="[
+    { key: 'id', label: 'ID' },
+    { key: 'name', label: 'Name' },
+    { key: 'status', label: 'Status' }
+  ]" 
+  [data]="[
+    { id: 1, name: 'Policy A', status: 'Active' },
+    { id: 2, name: 'Policy B', status: 'Inactive' }
+  ]"
+  (rowClick)="onRowSelect($event)">
+</lib-table>
+-->

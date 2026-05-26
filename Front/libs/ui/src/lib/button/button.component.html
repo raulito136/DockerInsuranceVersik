@@ -1,0 +1,16 @@
+<button
+  [type]="type === 'submit' ? 'submit' : 'button'"
+  [disabled]="disabled"
+  [className]="baseClasses + ' ' + colorClasses"
+  (click)="!disabled && buttonClick.emit()"
+>
+  {{ contentText }}
+</button>
+
+<!-- USE EXAMPLE
+
+<lib-button />
+<lib-button type="submit"/>
+<lib-button type="submit" content="ButtonText"/>
+
+-->

@@ -1,0 +1,23 @@
+<div class="p-6 max-w-4xl mx-auto">
+<lib-form [title]="isEditMode ? 'Edit Policy Type' : 'Create Policy Type'" (formSubmit)="onSubmitForm($event)">
+
+    <div [formGroup]="myForm" class="flex flex-col gap-4">
+        @if(!isEditMode){
+            <lib-input label="Code" formControlName="code"/>
+        }
+    
+        <lib-input label="Name" formControlName="name"/>
+        <lib-textarea label="Description" formControlName="description"/>
+
+        @if(isEditMode){
+            <lib-switch label="Active Status" formControlName="isActive" [checked]="myForm.get('isActive')?.value ?? false" 
+            (checkedChange)="myForm.get('isActive')?.setValue($event)"/>
+        }
+    </div>
+      <div form-actions class="flex gap-2 justify-end">
+    <lib-button type="cancel" content="Cancel" (buttonClick)="onCancel()"></lib-button>
+    <lib-button type="submit" [content]="isEditMode ? 'Save' : 'Create'" [disabled]="myForm.invalid"></lib-button>
+  </div>
+
+</lib-form>
+</div>

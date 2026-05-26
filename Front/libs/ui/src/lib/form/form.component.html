@@ -1,0 +1,38 @@
+<form (submit)="onSubmit($event)" class="bg-white shadow-lg rounded-xl p-6 md:p-8 w-full border border-gray-100">
+  
+  <!-- Header Section -->
+  @if (title || subtitle) {
+  <div class="mb-6 pb-4 border-b border-gray-200">
+    @if (title) {
+    <h2 class="text-2xl font-bold text-gray-800">{{ title }}</h2>
+    }
+    @if (subtitle) {
+    <p class="text-sm text-gray-500 mt-1">{{ subtitle }}</p>
+    }
+  </div>
+  }
+
+  <!-- Main Content (Inputs, Selects, etc.) -->
+  <div class="flex flex-col gap-4">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- Actions (Buttons) -->
+  <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-end gap-3">
+    <ng-content select="[form-actions]"></ng-content>
+  </div>
+
+</form>
+
+<!-- Usage Example:
+<lib-form title="Create Policy" subtitle="Enter the policy details below" (formSubmit)="savePolicy()">
+  
+  <lib-input label="Policy Number" name="policyNo" />
+  <lib-select label="Status" [options]="statusOptions" />
+  
+  <div form-actions>
+    <lib-button type="cancel" content="Cancel" />
+    <lib-button type="submit" content="Save" />
+  </div>
+</lib-form>
+-->

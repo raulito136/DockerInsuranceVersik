@@ -1,0 +1,45 @@
+<div class="flex border-b border-gray-300 rounded-lg">
+  <!-- Iterate over the tab list -->
+  @for (tab of tabs; track tab) {
+  <button
+    (click)="selectTab(tab)"
+    [class]="
+      'px-6 py-3 transition-colors text-sm uppercase tracking-wider' +
+      (activeTab === tab
+        ? 'text-blue-700 border-b-2 border-blue-700 font-bold'
+        : 'text-gray-600 hover:text-gray-800 font-medium')
+    "
+  >
+    {{ tab }}
+  </button>
+  }
+</div>
+
+<!-- USE EXAMPLE
+
+<div>
+<lib-tabs
+    [tabs]="['Detalles', 'Comentarios', 'Historial']"
+    [activeTab]="currentTab" // this is a field in the view class (example: in the export class WelcomeComponent {currentTab:string='Detalles'})
+    (onTabChange)="currentTab = $event"
+/>
+
+@if (currentTab === 'Detalles') {
+<div>
+    <p>Panel con los detalles</p>
+</div>
+}
+
+@if (currentTab === 'Comentarios') {
+<div>
+    <p>Panel con los comentarios</p>
+</div>
+}
+
+@if (currentTab === 'Historial') {
+<div>
+    <p>Panel con el historial</p>
+</div>
+}
+</div>
+-->

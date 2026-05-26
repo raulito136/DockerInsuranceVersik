@@ -1,0 +1,162 @@
+### ============================================================
+### Claims Service — Test Cases (.http)
+### Puerto: http://localhost:5001
+### 
+### Instrucciones:
+### 1. Instala la extensión "REST Client" en VS Code
+### 2. Arranca el servicio: dotnet run --project Claims.Api
+### 3. Haz clic en "Send Request" encima de cada petición
+### ============================================================
+
+@baseUrl = http://localhost:5001/api/v1
+
+### ─────────────────────────────────────────────────────────────
+### 1. CLAIMS — LISTAR (debe devolver lista vacía al inicio)
+### Esperado: 200 con { "data": [], "page": 1, "pageSize": 20, "total": 0 }
+### ─────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/claims?page=1&pageSize=20
+Accept: application/json
+
+### ─────────────────────────────────────────────────────────────
+### 2. CLAIMS — LISTAR CON FILTROS
+### Filtra por statusCode y policyNumber
+### ─────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/claims?page=1&pageSize=10&statusCode=SUBMITTED&policyNumber=POL-2026-00001
+Accept: application/json
+
+### ─────────────────────────────────────────────────────────────
+### 3. CLAIMS — CREAR (sin Policies service devolverá 503)
+### Esperado SIN servicios: 503 con mensaje "Policies service is unavailable"
+### Esperado CON servicios: 201 con el claim creado
+### ─────────────────────────────────────────────────────────────
+
+POST {{baseUrl}}/claims
+Content-Type: application/json
+Accept: application/json
+
+{
+    "policyNumber": "POL-2026-00001",
+    "claimDate": "2026-04-20",
+    "amount": 5000.00,
+    "description": "Water damage in kitchen due to pipe burst"
+}
+
+### ─────────────────────────────────────────────────────────────
+### 4. CLAIMS — CREAR CON VALIDACIÓN DE CAMPOS
+### Esperado: 400 con errores de validación (amount <= 0)
+### ─────────────────────────────────────────────────────────────
+
+POST {{baseUrl}}/claims
+Content-Type: application/json
+Accept: application/json
+
+{
+    "policyNumber": "",
+    "claimDate": "0001-01-01",
+    "amount": -100,
+    "description": ""
+}
+
+### ─────────────────────────────────────────────────────────────
+### 5. CLAIMS — OBTENER POR ID (404 si no existe)
+### Cambia {id} por un ID real cuando tengas claims creados
+### ─────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/claims/1
+Accept: application/json
+
+### ─────────────────────────────────────────────────────────────
+### 6. CLAIMS — OBTENER POR NÚMERO (404 si no existe)
+### ─────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/claims/by-number/CLM-2026-00001
+Accept: application/json
+
+### ─────────────────────────────────────────────────────────────
+### 7. CLAIMS — ACTUALIZAR (PUT)
+### Cambia {id} por un ID real
+### ─────────────────────────────────────────────────────────────
+
+PUT {{baseUrl}}/claims/1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "policyNumber": "POL-2026-00001",
+    "claimDate": "2026-04-21",
+    "amount": 7500.00,
+    "description": "Water damage in kitchen and living room - updated assessment"
+}
+
+### ─────────────────────────────────────────────────────────────
+### 8. CLAIMS — CAMBIAR STATUS (PATCH)
+### Workflow: SUBMITTED → UNDER_REVIEW → APPROVED/REJECTED → PAID
+### ─────────────────────────────────────────────────────────────
+
+PATCH {{baseUrl}}/claims/1/status
+Content-Type: application/json
+Accept: application/json
+
+{
+    "statusCode": "UNDER_REVIEW",
+    "changedBy": "admin"
+}
+
+### ─────────────────────────────────────────────────────────────
+### 9. CLAIMS — CAMBIAR STATUS INVÁLIDO (debe devolver 422)
+### Intentar saltar de SUBMITTED a APPROVED directamente
+### ─────────────────────────────────────────────────────────────
+
+PATCH {{baseUrl}}/claims/1/status
+Content-Type: application/json
+Accept: application/json
+
+{
+    "statusCode": "APPROVED",
+    "changedBy": "admin"
+}
+
+### ─────────────────────────────────────────────────────────────
+### 10. CLAIMS — ELIMINAR
+### Solo permitido cuando status es SUBMITTED
+### ─────────────────────────────────────────────────────────────
+
+DELETE {{baseUrl}}/claims/1
+Accept: application/json
+
+### ─────────────────────────────────────────────────────────────
+### 11. COMMENTS — LISTAR comentarios de un claim
+### ─────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/claims/1/comments
+Accept: application/json
+
+### ─────────────────────────────────────────────────────────────
+### 12. COMMENTS — AGREGAR comentario
+### ─────────────────────────────────────────────────────────────
+
+POST {{baseUrl}}/claims/1/comments
+Content-Type: application/json
+Accept: application/json
+
+{
+    "authorName": "David",
+    "comment": "Claim received, starting initial review process"
+}
+
+### ─────────────────────────────────────────────────────────────
+### 13. COMMENTS — ELIMINAR comentario
+### Cambia {commentId} por un ID real
+### ─────────────────────────────────────────────────────────────
+
+DELETE {{baseUrl}}/claims/1/comments/1
+Accept: application/json
+
+### ─────────────────────────────────────────────────────────────
+### 14. AUDIT — Ver historial de cambios de un claim
+### ─────────────────────────────────────────────────────────────
+
+GET {{baseUrl}}/claims/1/audit
+Accept: application/json

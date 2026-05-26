@@ -1,0 +1,22 @@
+diff --git a/node_modules/@nx/module-federation/src/utils/share.js b/node_modules/@nx/module-federation/src/utils/share.js
+index 87fd3ae..b03f5ed 100644
+--- a/node_modules/@nx/module-federation/src/utils/share.js
++++ b/node_modules/@nx/module-federation/src/utils/share.js
+@@ -20,7 +20,7 @@ const core_1 = require("@rspack/core");
+  * @param tsConfigPath - The path to TS Config File that contains the Path Mappings for the Libraries
+  * @param bundler - The bundler to use for the replacement plugin
+  */
+-function shareWorkspaceLibraries(workspaceLibs, tsConfigPath = process.env.NX_TSCONFIG_PATH ?? (0, typescript_1.getRootTsConfigPath)(), bundler = 'rspack') {
++function shareWorkspaceLibraries(workspaceLibs, tsConfigPath = process.env.NX_TSCONFIG_PATH ?? (0, typescript_1.getRootTsConfigPath)(), bundler = 'webpack') {
+     if (!workspaceLibs) {
+         return getEmptySharedLibrariesConfig();
+     }
+@@ -234,7 +234,7 @@ function addStringDependencyToSharedConfig(sharedConfig, dependency, projectGrap
+         const config = getNpmPackageSharedConfig(dependency, pkgJson.version);
+     }
+ }
+-function getEmptySharedLibrariesConfig(bundler = 'rspack') {
++function getEmptySharedLibrariesConfig(bundler = 'webpack') {
+     const normalModuleReplacementPluginImpl = bundler === 'rspack'
+         ? core_1.NormalModuleReplacementPlugin
+         : require('webpack').NormalModuleReplacementPlugin;

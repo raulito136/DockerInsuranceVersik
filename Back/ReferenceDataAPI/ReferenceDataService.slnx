@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ReferenceData.Api/ReferenceData.Api.csproj" />
+  <Project Path="ReferenceData.Application/ReferenceData.Application.csproj" />
+  <Project Path="ReferenceData.Domain/ReferenceData.Domain.csproj" />
+  <Project Path="ReferenceData.Infrastructure/ReferenceData.Infrastructure.csproj" />
+  <Project Path="ReferenceData.IntegrationTests/ReferenceData.IntegrationTests.csproj" Id="9a668c29-f665-42c4-a072-bbcae506f41a" />
+</Solution>

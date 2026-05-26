@@ -1,0 +1,46 @@
+<div class="p-8 max-w-4xl mx-auto">
+  <div class="flex items-center gap-4 mb-6">
+    <lib-button type="default" content="← Back" (buttonClick)="cancelar()"></lib-button>
+    <h1 class="text-3xl font-extrabold text-gray-800">New Claim</h1>
+  </div>
+
+  <form [formGroup]="claimForm" (ngSubmit)="guardarDatos()">
+    
+    <lib-form title="Register a Claim" subtitle="Enter the details to submit for evaluation">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <lib-input label="Policy Number" placeholder="Ex: POL-2026-00001" 
+                   [value]="claimForm.get('policyNumber')?.value || ''" 
+                   (valueChange)="claimForm.get('policyNumber')?.setValue($event)"></lib-input>
+        
+        <lib-input label="Claim Amount ($)" placeholder="Ex: 50.000" type="text"
+                   [value]="claimForm.get('amount')?.value || ''" 
+                   (valueChange)="onAmountChange($event)"
+                   (keydown)="onAmountKeydown($event)"></lib-input>
+        
+        <lib-datepicker label="Incident Date" 
+                        [selectedDate]="claimForm.get('claimDate')?.value || ''" 
+                        (selectedDateChange)="claimForm.get('claimDate')?.setValue($event)"></lib-datepicker>
+      </div>
+
+      <div class="mt-4">
+        <lib-input label="Incident Description" placeholder="Describe what happened" 
+                   [value]="claimForm.get('description')?.value || ''" 
+                   (valueChange)="claimForm.get('description')?.setValue($event)"></lib-input>
+      </div>
+
+      <div form-actions class="flex gap-2 justify-end">
+        <lib-button type="cancel" content="Cancel" (buttonClick)="cancelar()"></lib-button>
+        <lib-button type="submit" content="Save Claim" (buttonClick)="guardarDatos()"></lib-button>
+      </div>
+
+    </lib-form>
+  </form>
+
+  <lib-confirmation 
+    *ngIf="showModal()" 
+    [title]="modalTitle()" 
+    [text]="modalText()" 
+    (confirmAction)="onModalClose()">
+  </lib-confirmation>
+</div>

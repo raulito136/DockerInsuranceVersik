@@ -1,0 +1,5 @@
+{
+  "mfe-reference-data": "http://localhost:4201",
+  "mfe-policies": "http://localhost:4202",
+  "mfe-claims": "http://localhost:4203"
+}

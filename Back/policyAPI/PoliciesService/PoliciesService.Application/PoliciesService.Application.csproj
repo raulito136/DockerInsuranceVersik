@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.15" />
+		<PackageReference Include="Refit" Version="10.1.6" />
+		<PackageReference Include="Scalar.AspNetCore" Version="2.14.9" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\PoliciesService.Domain\PoliciesService.Domain.csproj" />
+	</ItemGroup>
+
+</Project>
