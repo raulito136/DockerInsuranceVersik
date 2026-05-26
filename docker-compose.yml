@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+
+  # ─── SQL Server ───────────────────────────────────────────────────────────────
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourStrong@Passw0rd"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong@Passw0rd' -Q 'SELECT 1' -No || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - backend-net
+
+  # ─── Reference Data API (puerto 5003) ─────────────────────────────────────────
+  referencedata-api:
+    build:
+      context: ./Back/ReferenceDataAPI
+      dockerfile: Dockerfile
+    container_name: referencedata-api
+    ports:
+      - "5003:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=ProyectoDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+      Services__ReferenceData: "http://referencedata-api:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+  # ─── Policies API (puerto 5002) ────────────────────────────────────────────────
+  policies-api:
+    build:
+      context: ./Back/policyAPI/PoliciesService
+      dockerfile: Dockerfile
+    container_name: policies-api
+    ports:
+      - "5002:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=ProyectoDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+      Services__ReferenceData: "http://referencedata-api:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      referencedata-api:
+        condition: service_started
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+  # ─── Claims API (puerto 5001) ──────────────────────────────────────────────────
+  claims-api:
+    build:
+      context: ./Back/ClaimsAPI
+      dockerfile: Dockerfile
+    container_name: claims-api
+    ports:
+      - "5001:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__ClaimsDb: "Server=sqlserver;Database=ProyectoDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+      Services__Policies: "http://policies-api:8080"
+      Services__ReferenceData: "http://referencedata-api:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      referencedata-api:
+        condition: service_started
+      policies-api:
+        condition: service_started
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+# ─── Volumes & Networks ───────────────────────────────────────────────────────
+volumes:
+  sqlserver_data:
+
+networks:
+  backend-net:
+    driver: bridge
