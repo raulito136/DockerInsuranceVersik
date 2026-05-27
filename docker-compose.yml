@@ -8,14 +8,14 @@ services:
     container_name: sqlserver
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "YourStrong@Passw0rd"
+      SA_PASSWORD: "P@ssw0rd2026"
       MSSQL_PID: "Express"
     ports:
       - "1433:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong@Passw0rd' -Q 'SELECT 1' -No || exit 1"]
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'P@ssw0rd2026' -Q 'SELECT 1' -No || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -33,7 +33,7 @@ services:
       - "5003:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=ProyectoDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=ProyectoDb;User Id=sa;Password=P@ssw0rd2026;TrustServerCertificate=True;"
       Services__ReferenceData: "http://referencedata-api:8080"
     depends_on:
       sqlserver:
@@ -52,7 +52,7 @@ services:
       - "5002:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=ProyectoDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=ProyectoDb;User Id=sa;Password=P@ssw0rd2026;TrustServerCertificate=True;"
       Services__ReferenceData: "http://referencedata-api:8080"
     depends_on:
       sqlserver:
@@ -73,7 +73,7 @@ services:
       - "5001:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__ClaimsDb: "Server=sqlserver;Database=ProyectoDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+      ConnectionStrings__ClaimsDb: "Server=sqlserver,1433;Database=ProyectoDb;User Id=sa;Password=P@ssw0rd2026;TrustServerCertificate=True;"
       Services__Policies: "http://policies-api:8080"
       Services__ReferenceData: "http://referencedata-api:8080"
     depends_on:
@@ -87,9 +87,37 @@ services:
       - backend-net
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: ./Front
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "4200:4200"
+      - "4201:4201"
+      - "4202:4202"
+      - "4203:4203"
+    environment:
+      HOST: "0.0.0.0"
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./Front:/app:delegated
+      - frontend_node_modules:/app/node_modules
+    depends_on:
+      claims-api:
+        condition: service_started
+      policies-api:
+        condition: service_started
+      referencedata-api:
+        condition: service_started
+    networks:
+      - backend-net
+    restart: unless-stopped
+
 # ─── Volumes & Networks ───────────────────────────────────────────────────────
 volumes:
   sqlserver_data:
+  frontend_node_modules:
 
 networks:
   backend-net:

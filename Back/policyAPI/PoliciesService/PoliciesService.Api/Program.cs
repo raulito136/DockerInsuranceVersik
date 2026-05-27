@@ -72,6 +72,13 @@ namespace PoliciesService.Api
 
             var app = builder.Build();
 
+            // Apply database migrations automatically
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+            }
+
             // Activate the CORS middleware
             app.UseCors(CORSRules);
 

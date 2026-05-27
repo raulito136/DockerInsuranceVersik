@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "npx nx run-many --target=serve --projects=mfe-shell,mfe-claims,mfe-reference-data,mfe-policies --parallel=4",
-    "start:shell": "npx nx serve mfe-shell",
-    "start:claims": "npx nx serve mfe-claims",
-    "start:reference-data": "npx nx serve mfe-reference-data",
-    "start:policies": "npx nx serve mfe-policies"
+    "start": "npx nx run-many --target=serve --projects=mfe-shell,mfe-claims,mfe-reference-data,mfe-policies --parallel=4 -- --host=0.0.0.0",
+    "start:shell": "npx nx serve mfe-shell -- --host=0.0.0.0",
+    "start:claims": "npx nx serve mfe-claims -- --host=0.0.0.0",
+    "start:reference-data": "npx nx serve mfe-reference-data -- --host=0.0.0.0",
+    "start:policies": "npx nx serve mfe-policies -- --host=0.0.0.0"
   },
   "private": true,
   "devDependencies": {
