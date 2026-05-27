@@ -87,6 +87,58 @@ services:
       - backend-net
     restart: unless-stopped
 
+  # ─── Shell (Angular MFE) ──────────────────────────────────────────────────────
+  mfe-shell:
+    build:
+      context: ./Front
+      dockerfile: mfe-shell/Dockerfile
+    container_name: mfe-shell
+    ports:
+      - "4200:80"
+    depends_on:
+      - referencedata-api
+      - policies-api
+      - claims-api
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+  # ─── MFE Reference Data (puerto 4201) ─────────────────────────────────────────
+  mfe-reference-data:
+    build:
+      context: ./Front
+      dockerfile: mfe-reference-data/Dockerfile
+    container_name: mfe-reference-data
+    ports:
+      - "4201:80"
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+  # ─── MFE Policies (puerto 4202) ───────────────────────────────────────────────
+  mfe-policies:
+    build:
+      context: ./Front
+      dockerfile: mfe-policies/Dockerfile
+    container_name: mfe-policies
+    ports:
+      - "4202:80"
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+  # ─── MFE Claims (puerto 4203) ─────────────────────────────────────────────────
+  mfe-claims:
+    build:
+      context: ./Front
+      dockerfile: mfe-claims/Dockerfile
+    container_name: mfe-claims
+    ports:
+      - "4203:80"
+    networks:
+      - backend-net
+    restart: unless-stopped
+
 # ─── Volumes & Networks ───────────────────────────────────────────────────────
 volumes:
   sqlserver_data:

@@ -38,4 +38,10 @@ var app = builder.Build();
 app.UseCors("AllowMFE");
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ClaimsDbContext>();
+    db.Database.Migrate();
+}
+
 app.Run();

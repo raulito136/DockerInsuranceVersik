@@ -1,0 +1,10 @@
+node_modules
+dist
+.nx/cache
+.angular
+**/*.e2e
+**-e2e
+.git
+.gitignore
+.editorconfig
+*.md
