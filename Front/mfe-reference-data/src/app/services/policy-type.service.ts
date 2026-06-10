@@ -9,7 +9,7 @@ import { ApiResponse, PagedResponse } from '../../../../shared-models/src/lib/sh
 })
 export class PolicyTypeService {
   private http=inject(HttpClient);
-  private apiUrl="http://localhost:5003/api/v1/policy-types";
+  private apiUrl="http://172.22.76.32:5001/api/v1/policy-types";
 
   getPolicyTypes(includeInactive: boolean = false){
     return this.http.get<PagedResponse<PolicyType>>(`${this.apiUrl}?includeInactive=${includeInactive}`);

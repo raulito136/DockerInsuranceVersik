@@ -9,7 +9,7 @@ import { PolicyHolder, CreatePolicyHolderRequest, UpdatePolicyHolderRequest } fr
 })
 export class PolicyHolderService {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:5002/api/v1/policy-holders';
+  private readonly baseUrl = 'http://172.22.76.32:5002/api/v1/policy-holders';
 
   getPolicyHolders(page: number = 1, pageSize: number = 20): Observable<PagedResponse<PolicyHolder>> {
     const params = new HttpParams()

@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 export class ClaimCommentService {
   constructor(private http: HttpClient) {}
   
-  private apiUrl = 'http://localhost:5001/api/v1/claims';
+  private apiUrl = 'http://172.22.76.32:5003/api/v1/claims';
   private useMock = false;
 
   private mockComments: any[] = [];

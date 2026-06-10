@@ -1,0 +1,16 @@
+image:
+  repository: mcr.microsoft.com/mssql/server
+  tag: 2022-latest
+  pullPolicy: IfNotPresent
+
+saPassword: "P@ssw0rd2026"
+
+service:
+  type: ClusterIP
+  port: 1433
+
+persistence:
+  enabled: true
+  size: 8Gi
+  accessMode: ReadWriteOnce
+  storageClassName: standard

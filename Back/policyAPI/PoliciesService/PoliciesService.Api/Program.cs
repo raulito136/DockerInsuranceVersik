@@ -26,7 +26,7 @@ namespace PoliciesService.Api
                 options.AddPolicy(name: CORSRules,
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:4200", "http://localhost:4201", "http://localhost:4202", "http://localhost:4203")
+                        policy.AllowAnyOrigin()
                             .AllowAnyHeader()  // Allows any header (Authorization or Content-Type)
                             .AllowAnyMethod(); // Allows any API REST method (GET, POST, etc)
                     });

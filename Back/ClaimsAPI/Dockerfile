@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
+ENV DOTNET_NUGET_SIGNATURE_VERIFICATION=false
 
 # Copiar todo el código fuente
 COPY . .

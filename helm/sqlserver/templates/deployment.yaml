@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqlserver
+  template:
+    metadata:
+      labels:
+        app: sqlserver
+    spec:
+      containers:
+        - name: sqlserver
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 1433
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              value: "{{ .Values.saPassword }}"
+            - name: MSSQL_PID
+              value: "Express"
+          volumeMounts:
+            - name: mssql-data
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: mssql-data
+          persistentVolumeClaim:
+            claimName: sqlserver-pvc

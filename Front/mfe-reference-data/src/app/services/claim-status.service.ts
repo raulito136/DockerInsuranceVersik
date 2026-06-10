@@ -8,7 +8,7 @@ import { ApiResponse, PagedResponse } from '../../../../shared-models/src/lib/sh
 })
 export class ClaimStatusService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5003/api/v1/claim-statuses'; 
+  private apiUrl = 'http://172.22.76.32:5001/api/v1/claim-statuses'; 
 
   getClaimStatuses(includeInactive: boolean = false) {
     return this.http.get<PagedResponse<ClaimStatus>>(`${this.apiUrl}?includeInactive=${includeInactive}`);

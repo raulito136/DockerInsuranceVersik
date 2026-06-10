@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 4200
+              name: shell
+            - containerPort: 4201
+              name: mfe-refdata
+            - containerPort: 4202
+              name: mfe-policies
+            - containerPort: 4203
+              name: mfe-claims
+          env:
+{{- range .Values.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+{{- end }}

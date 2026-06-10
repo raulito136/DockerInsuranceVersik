@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - port: 4200
+      targetPort: 4200
+      nodePort: 30200
+      protocol: TCP
+      name: shell
+    - port: 4201
+      targetPort: 4201
+      nodePort: 30204
+      protocol: TCP
+      name: mfe-refdata
+    - port: 4202
+      targetPort: 4202
+      nodePort: 30205
+      protocol: TCP
+      name: mfe-policies
+    - port: 4203
+      targetPort: 4203
+      nodePort: 30206
+      protocol: TCP
+      name: mfe-claims

@@ -9,7 +9,7 @@ import { Policy, CreatePolicyRequest, UpdatePolicyRequest } from '../models/poli
 })
 export class PolicyService {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:5002/api/v1/policies';
+  private readonly baseUrl = 'http://172.22.76.32:5002/api/v1/policies';
 
   getPolicies(page: number = 1, pageSize: number = 20, status?: string, policyTypeCode?: string): Observable<PagedResponse<Policy>> {
     let params = new HttpParams()

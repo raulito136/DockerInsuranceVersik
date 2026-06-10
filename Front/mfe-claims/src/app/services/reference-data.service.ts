@@ -14,7 +14,7 @@ export interface ReferenceDataEntity {
 })
 export class ReferenceDataService {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:5003/api/v1';
+  private readonly baseUrl = 'http://172.22.76.32:5001/api/v1';
 
   getClaimStatuses(): Observable<ReferenceDataEntity[]> {
     return this.http.get<any>(`${this.baseUrl}/claim-statuses`)

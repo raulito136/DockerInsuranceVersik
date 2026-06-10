@@ -2,7 +2,14 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 
 export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
-  return next(req).pipe(
+  let request = req;
+  if (req.url.startsWith('http://localhost:500')) {
+    const targetHost = window.location.hostname;
+    const newUrl = req.url.replace('localhost', targetHost);
+    request = req.clone({ url: newUrl });
+  }
+
+  return next(request).pipe(
     catchError((error: HttpErrorResponse) => {
       let errorMessages: string[] = [];
 

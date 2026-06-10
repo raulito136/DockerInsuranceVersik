@@ -1,0 +1,7 @@
+# Binaries
+kubectl
+kubectl.exe
+
+# Local temp logs
+/tmp/
+*.log

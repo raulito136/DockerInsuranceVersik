@@ -1,0 +1,16 @@
+image:
+  repository: frontend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 4200
+
+env:
+  - name: HOST
+    value: "0.0.0.0"
+  - name: CHOKIDAR_USEPOLLING
+    value: "true"

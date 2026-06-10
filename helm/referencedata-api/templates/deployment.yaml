@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: referencedata-api
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: referencedata-api
+  template:
+    metadata:
+      labels:
+        app: referencedata-api
+    spec:
+      containers:
+        - name: referencedata-api
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+{{- range .Values.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+{{- end }}

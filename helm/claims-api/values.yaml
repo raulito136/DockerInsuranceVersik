@@ -1,0 +1,22 @@
+image:
+  repository: claims-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8080
+
+env:
+  - name: ASPNETCORE_ENVIRONMENT
+    value: "Production"
+  - name: DOTNET_USE_POLLING_FILE_WATCHER
+    value: "1"
+  - name: ConnectionStrings__ClaimsDb
+    value: "Server=sqlserver,1433;Database=ProyectoDb;User Id=sa;Password=P@ssw0rd2026;TrustServerCertificate=True;"
+  - name: Services__Policies
+    value: "http://policies-api:8080"
+  - name: Services__ReferenceData
+    value: "http://referencedata-api:8080"

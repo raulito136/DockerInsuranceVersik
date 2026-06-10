@@ -1,0 +1,57 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: insurance-cluster
+
+# Configuración del control-plane
+nodes:
+  - role: control-plane
+    # Monta volúmenes del host en el nodo (útil para bases de datos, configs)
+    extraMounts:
+      - hostPath: /tmp/insurance-data
+        containerPath: /data
+        readOnly: false
+    
+    # Expone puertos para acceder desde el host
+    extraPortMappings:
+      # HTTP
+      - containerPort: 80
+        hostPort: 8080
+        protocol: TCP
+      # HTTPS
+      - containerPort: 443
+        hostPort: 8443
+        protocol: TCP
+      # APIs backend (ClaimsAPI, ReferenceDataAPI, etc.)
+      - containerPort: 5000
+        hostPort: 6000
+        protocol: TCP
+      - containerPort: 5001
+        hostPort: 6001
+        protocol: TCP
+      # Frontend NX apps
+      - containerPort: 4200
+        hostPort: 5200
+        protocol: TCP
+      - containerPort: 4201
+        hostPort: 5201
+        protocol: TCP
+      - containerPort: 4202
+        hostPort: 5202
+        protocol: TCP
+      - containerPort: 4203
+        hostPort: 5203
+        protocol: TCP
+  
+
+
+# Redes internas
+networking:
+  podSubnet: "10.244.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
+  # Habilita IPv4 forward (necesario en algunos sistemas)
+  apiServerAddress: "0.0.0.0"
+  apiServerPort: 6443
+
+# (Opcional) Features experimentales
+featureGates:
+  EphemeralContainers: true
